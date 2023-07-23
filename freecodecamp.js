@@ -22,10 +22,31 @@ app.use(function (req, res, next) {
 });
 
 //Building an echo server and practicing route parameters
-const routePath = "/:word/echo";
-app.get(routePath, function (req, res, next) {
+const echoRoutePath = "/:word/echo";
+app.get(echoRoutePath, function (req, res, next) {
   const data = req.params;
   res.json({ echo: data.word });
+  next();
+});
+
+//more complex routes and middleware functions
+const orgRoutePath =
+  "/reservoir/:location/:name/data/:depth-:length-:width-:size-:capacity";
+app.get(orgRoutePath, function (req, res, next) {
+  var data = req.params;
+  const name = data.name;
+  var capacity = data.capacity;
+
+  capacity = Number(capacity);
+  console.log("CAPACITY: " + capacity);
+
+  delete data.name;
+
+  if (capacity > 10000) {
+    res.send("Eligible for Power Program");
+  }
+  res.json({ name: name, data });
+
   next();
 });
 
