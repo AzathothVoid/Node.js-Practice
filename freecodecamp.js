@@ -21,6 +21,14 @@ app.use(function (req, res, next) {
   next();
 });
 
+//Building an echo server and practicing route parameters
+const routePath = "/:word/echo";
+app.get(routePath, function (req, res, next) {
+  const data = req.params;
+  res.json({ echo: data.word });
+  next();
+});
+
 //get route for displaying date via chaining middleware functions
 app.get(
   "/now",
