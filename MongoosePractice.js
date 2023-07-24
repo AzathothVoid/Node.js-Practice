@@ -1,3 +1,4 @@
+const { forEach, select } = require("async");
 var express = require("express");
 var mongoose = require("mongoose");
 require("dotenv").config();
@@ -45,33 +46,43 @@ app.use(function (req, res) {
 //creating dummy objects and function parameter data
 var dummy = { name: "nauman", age: 20, favoriteFoods: ["Samosa", "Daal Mash"] };
 var arr = [
-  { name: "nauman", favoriteFoods: ["Samosa", "Lobiya"] },
-  { name: "Azam", favoriteFoods: ["Pakora", "Lobiya"] },
-  { name: "Salahuddin", favoriteFoods: ["Samosa", "Daal"] },
+  { name: "Uzair", favoriteFoods: ["Samosa", "Lobiya"] },
+  { name: "Saqib", favoriteFoods: ["Haldy", "Lobiya"] },
+  { name: "Basit", favoriteFoods: ["Samosa", "Daal"] },
+  { name: "Roland", favoriteFoods: ["Samosa", "Kabab"] },
 ];
 var p_id;
 
 //functions
 const createAndSavePerson = (person, done) => {
-  new Person(person).save(function (err, data) {});
+  new Person(person).save(function (err, data) {
+    if (err) {
+      return console.log("Error Fetching Person By ID");
+    }
+    console.log(`Successfully Created Person ${data.name}` + data);
+  });
 };
 
 const createManyPeople = (arrayOfPeople) => {
-  Person.create(arrayOfPeople);
+  Person.create(arrayOfPeople, function (err, data) {
+    if (err) {
+      return console.log("Error Creating People");
+    }
+    console.log(`Successfully Created People\n` + data);
+  });
 };
 
-const findPeopleByName = (personName) => {
+const findPeopleByName = (personName, callback) => {
   Person.find(personName, function (err, data) {
-    console.log(data);
+    console.log(`Successfully updated ${personName}\n` + data);
+
+    if (callback) callback(data);
   });
 };
 
 const findOneByFood = async (food) => {
-  Person.findOne(food, function (err, data) {
-    console.log(data);
-    p_id = data._id;
-    console.log("Value of P_ID: " + p_id);
-    return data;
+  Person.findOne({ favoriteFoods: food }, function (err, data) {
+    console.log(`Successfully Found ${data.name}\n` + data);
   });
 };
 
@@ -80,7 +91,7 @@ const findPersonById = async (personID, callback) => {
     if (err) {
       return console.log("Error Fetching Person By ID");
     }
-    console.log(data);
+    console.log(`Successfully Found ${data.name}\n` + data);
 
     if (callback) callback(data);
   });
@@ -88,9 +99,52 @@ const findPersonById = async (personID, callback) => {
 
 const findEditThenSave = (personID) => {
   findPersonById(personID, function (data) {
-    console.log(data);
+    if (!data.favoriteFoods.includes("hamburger")) {
+      data.favoriteFoods.push("hamburger");
+    }
+    data.save();
   });
 };
+
+const findAndUpdate = (personName) => {
+  Person.findOneAndUpdate(
+    { name: personName },
+    { age: 20 },
+    function (err, data) {
+      console.log(`Successfully updated ${personName}\n` + data);
+    }
+  );
+};
+
+const removeById = (personID) => {
+  Person.findOneAndDelete({ _id: personID }, function (err, data) {
+    console.log(`Successfully deleted ${data.name}\n` + data);
+  });
+};
+
+const removeManyPeople = (nameToRemove) => {
+  Person.deleteMany({ name: nameToRemove }, function (err, response) {
+    if (err) return console.log(err);
+
+    console.log(
+      `Successfully deleted records with name ${nameToRemove}\n` + response
+    );
+  });
+};
+
+const queryChain = (foodToSearch) => {
+  var findQuery = Person.find({ favoriteFoods: foodToSearch });
+  var sortQuery = findQuery.sort("name");
+  var limitQuery = sortQuery.limit(2);
+  var selectQuery = limitQuery.select("-age");
+
+  selectQuery.exec(function (err, response) {
+    if (err) return console.log(err);
+
+    console.log(`Successfull Chaining!\n` + response);
+  });
+};
+
 //function calls
 // createAndSavePerson(dummy);
 //createManyPeople(arr);
@@ -116,7 +170,10 @@ const findEditThenSave = (personID) => {
 //   });
 // });
 
-findEditThenSave("64be16b06059be25e4f308e9");
+//findEditThenSave("64be16b06059be25e4f308e9");
+//removeManyPeople("Basit");
+
+queryChain("Samosa");
 
 app.listen(port);
 
