@@ -12,7 +12,7 @@ var app = express();
 var port = 3000;
 
 //setting absolute path for the front-end website resources to be loaded
-absolute_path = __dirname + "/public";
+absolute_path = __dirname + "/public/RealCloud";
 
 //root level middleware function that displays a string of information about
 //request type, path and ip address of the requestee
