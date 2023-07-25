@@ -4,6 +4,8 @@ var bodyParser = require("body-parser");
 
 var app = express();
 
+app.use(express.static("views/TimeStampAPI"));
+
 function isNumeric(str) {
   return !isNaN(str);
 }
@@ -16,7 +18,7 @@ app.get("/:date?", (request, response) => {
   var date = new Date();
 
   if (!Boolean(dateString)) {
-    response.json({
+    return response.json({
       Unix: Math.floor(date.getTime() / 1000),
       UTC: date.toUTCString(),
     });

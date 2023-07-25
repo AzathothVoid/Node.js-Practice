@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="css/style.css" />
+    <title>TimeStampAPI</title>
+  </head>
+  <body>
+    <section class="block block--dark block--skewed-left--black block--shadow">
+      <div class="container block--skewed-left--white">
+        <form class="input-group">
+          <label class="input-group__label" for="date-url"
+            >Enter Your Date</label
+          >
+          <input id="date-url" class="input" type="text" />
+          <button id="submit-btn" class="btn">Enter</button>
+        </form>
+        <div class="date-group date-unix">
+          <h2 class="date-group__heading">UNIX DATE</h2>
+          <p id="unix-val">Enter Date</p>
+        </div>
+        <div class="date-group date-UTC">
+          <h2 class="date-group__heading">UTC DATE</h2>
+          <p id="utc-val">Enter Date</p>
+        </div>
+      </div>
+    </section>
+    <script src="js/index.js"></script>
+  </body>
+</html>
