@@ -4,7 +4,7 @@ var bodyParser = require("body-parser");
 
 var app = express();
 
-
+app.get("/")
 
 
 var listener = app.listen(process.env.PORT, function () {

@@ -14,6 +14,8 @@ var port = 3000;
 //setting absolute path for the front-end website resources to be loaded
 absolute_path = __dirname + "/public/RealCloud";
 
+app.use(express.static(absolute_path));
+
 //root level middleware function that displays a string of information about
 //request type, path and ip address of the requestee
 app.use(function (req, res, next) {
@@ -25,6 +27,7 @@ app.use(function (req, res, next) {
 const echoRoutePath = "/:word/echo";
 app.get(echoRoutePath, function (req, res, next) {
   const data = req.params;
+  res.json({ fuck: "off" });
   res.json({ echo: data.word });
   next();
 });
@@ -64,7 +67,7 @@ app.get(
 
 //practice route
 app.get("/", function (req, res) {
-  res.send("Hello Express");
+  res.send("Hello Fucker");
 });
 
 //practicing using env variables and the json function of res object
