@@ -1,4 +1,4 @@
-const server = "http://127.0.0.1:3000/";
+const server = "http://127.0.0.1:3000/apis/";
 
 const getDate = document.getElementById("date-url");
 const getBtn = document.getElementById("submit-btn");
