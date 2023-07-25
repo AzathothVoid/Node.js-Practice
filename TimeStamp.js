@@ -51,7 +51,7 @@ app.get("/apis/date/:date?", (request, response) => {
 
 app.get("/apis/header/myinfo", (req, res) => {
   const headerData = req.headers;
-  return res.json({
+  return res.status(200).json({
     ipaddress: req.socket.remoteAddress,
     language: headerData["accept-language"],
     software: headerData["user-agent"],
