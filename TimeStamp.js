@@ -5,6 +5,7 @@ var bodyParser = require("body-parser");
 var app = express();
 
 app.use(express.static("views/TimeStampAPI"));
+app.set("trust proxy", true);
 
 function isNumeric(str) {
   return !isNaN(str);
@@ -52,10 +53,15 @@ app.get("/apis/date/:date?", (request, response) => {
 app.get("/apis/header/myinfo", (req, res) => {
   const headerData = req.headers;
   return res.status(200).json({
-    ipaddress: req.socket.remoteAddress,
+    ipaddress: req.ip,
     language: headerData["accept-language"],
     software: headerData["user-agent"],
   });
+});
+
+app.use(function (req, res, next) {
+  res.status(404);
+  res.type("txt").send("Not Found");
 });
 
 function dateParser(date) {
