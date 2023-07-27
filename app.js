@@ -2,14 +2,12 @@ var express = require("express");
 require("dotenv").config();
 var bodyParser = require("body-parser");
 const multer = require("multer");
-const send = require("send");
 
 var app = express();
-var Multer = multer();
+const upload = multer({ dest: "uploads/" });
 
 app.use(express.static("views/TimeStampAPI"));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(Multer.any());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.set("trust proxy", true);
 
@@ -65,13 +63,13 @@ app.get("/apis/header/myinfo", (req, res) => {
   });
 });
 
-app.post("/apis/file/metadata", (req, res) => {
-  console.log(req.body);
+app.post("/apis/file/metadata", upload.array("files"), (req, res) => {
+  console.log(req.files);
 
   res
     .status(200)
     .header({ "Access-Control-Allow-Origin": "*" })
-    .json({ name: req.body });
+    .json(req.files);
 });
 
 app.use(function (req, res, next) {

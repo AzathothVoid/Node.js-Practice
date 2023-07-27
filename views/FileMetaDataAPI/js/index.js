@@ -5,10 +5,12 @@ baseURL = "http://127.0.0.1:3000/apis/";
 inputForm.addEventListener("submit", async function (e) {
   e.preventDefault();
 
-  console.log(e.target.fileField.files[0]);
+  console.log(e.target.fileField.files);
 
   const formData = new FormData();
-  formData.append("file", e.target.fileField.files[0]);
+  for (let i = 0; i < e.target.fileField.files.length; i++) {
+    formData.append("files", e.target.fileField.files[i]);
+  }
 
   const options = {
     method: "POST",
