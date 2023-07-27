@@ -12,7 +12,7 @@ getBtn.addEventListener("click", GET);
 async function GET(e) {
   e.preventDefault();
   const res = await fetch(server + getDate.value, {
-    method: "GET",
+    method: "GET",  
   });
 
   const data = await res.json();

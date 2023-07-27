@@ -1,10 +1,16 @@
 var express = require("express");
 require("dotenv").config();
 var bodyParser = require("body-parser");
+const multer = require("multer");
+const send = require("send");
 
 var app = express();
+var Multer = multer();
 
 app.use(express.static("views/TimeStampAPI"));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(Multer.any());
+app.use(express.json());
 app.set("trust proxy", true);
 
 function isNumeric(str) {
@@ -59,9 +65,18 @@ app.get("/apis/header/myinfo", (req, res) => {
   });
 });
 
+app.post("/apis/file/metadata", (req, res) => {
+  console.log(req.body);
+
+  res
+    .status(200)
+    .header({ "Access-Control-Allow-Origin": "*" })
+    .json({ name: req.body });
+});
+
 app.use(function (req, res, next) {
   res.status(404);
-  res.type("txt").send("Not Found");
+  res.type("txt").send("Message");
 });
 
 function dateParser(date) {
