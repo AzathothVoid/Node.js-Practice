@@ -1,15 +1,17 @@
 const inputForm = document.getElementById("inputForm");
+const files = document.getElementById("fileField");
+const btn = document.getElementById("submit-btn");
 
 baseURL = "http://127.0.0.1:3000/apis/";
 
-inputForm.addEventListener("submit", async function (e) {
+btn.addEventListener("click", async function (e) {
   e.preventDefault();
 
-  console.log(e.target.fileField.files);
+  console.log(files.files);
 
   const formData = new FormData();
-  for (let i = 0; i < e.target.fileField.files.length; i++) {
-    formData.append("files", e.target.fileField.files[i]);
+  for (let i = 0; i < files.files.length; i++) {
+    formData.append("files", files.files[i]);
   }
 
   const options = {

@@ -18,15 +18,16 @@
         "
         class="container container--primary"
       >
-        <form id="inputForm" class="input-group">
+        <form onsubmit="return false" id="inputForm" class="input-group">
           <input
-            name="fileField"
+            id="fileField"
             style="text-align-last: center"
             class="input"
             type="file"
             placeholder="Select a file"
+            multiple
           />
-          <button type="submit" id="submit-btn" class="btn">
+          <button type="button" id="submit-btn" class="btn">
             CheckMetaData
           </button>
         </form>

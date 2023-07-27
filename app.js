@@ -65,11 +65,10 @@ app.get("/apis/header/myinfo", (req, res) => {
 
 app.post("/apis/file/metadata", upload.array("files"), (req, res) => {
   console.log(req.files);
-
   res
     .status(200)
     .header({ "Access-Control-Allow-Origin": "*" })
-    .json(req.files);
+    .json({ message: "done" });
 });
 
 app.use(function (req, res, next) {
