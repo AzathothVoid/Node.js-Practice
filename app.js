@@ -6,7 +6,7 @@ const multer = require("multer");
 var app = express();
 const upload = multer({ dest: "uploads/" });
 
-app.use(express.static("views/TimeStampAPI"));
+app.use(express.static("views/FileMetaDataAPI"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.set("trust proxy", true);
@@ -68,12 +68,12 @@ app.post("/apis/file/metadata", upload.array("files"), (req, res) => {
   res
     .status(200)
     .header({ "Access-Control-Allow-Origin": "*" })
-    .json({ message: "done" });
+    .json(req.files);
 });
 
 app.use(function (req, res, next) {
   res.status(404);
-  res.type("txt").send("Message");
+  res.type("txt").send("No such resouce");
 });
 
 function dateParser(date) {
