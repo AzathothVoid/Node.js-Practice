@@ -64,11 +64,10 @@ app.get("/apis/header/myinfo", (req, res) => {
 });
 
 app.post("/apis/file/metadata", upload.array("files"), (req, res) => {
-  console.log(req.files);
   res
     .status(200)
     .header({ "Access-Control-Allow-Origin": "*" })
-    .json(req.files);
+    .json(metadataJSON(req.files));
 });
 
 app.use(function (req, res, next) {
@@ -76,12 +75,25 @@ app.use(function (req, res, next) {
   res.type("txt").send("No such resouce");
 });
 
+function metadataJSON(files) {
+  var metaData = new Array();
+
+  for (let i = 0; i < files.length; i++) {
+    metaData[i] = {
+      name: files[i].originalname,
+      size: files[i].size,
+      path: files[i].path,
+    };
+  }
+  return JSON.stringify(metaData);
+}
 function dateParser(date) {
   arr = date.split("-");
   parsedString = "0" + arr[0] + "-0" + arr[1] + "-0" + arr[2];
   return parsedString;
 }
-
+function fileChecker(req, res, next) {}
 var listener = app.listen(3000, function () {
   console.log(`Server Listening on port 3000`);
 });
+  
