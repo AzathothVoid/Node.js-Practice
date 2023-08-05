@@ -1,14 +1,25 @@
+const { f1 } = require("./module");
+
+f1();
 (function () {
   console.log("enter");
   function hello() {
     console.log("Hello world");
   }
 
-  he;
+  hello();
 })();
 
-(function () {
-  console.log(hello);
-})();
+// (function () {
+//   console.log(hello);
+// })();
 
-(function () {})();
+// (function () {})();
+
+// mapper = function () {
+//   function mapping() {
+//     console.log("Mapping");
+//   }
+// };
+
+// mapper.mapping();
